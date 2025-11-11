@@ -16,6 +16,8 @@ test-results/
 blob-report/
 trace.zip
 *.zip
+allure-report/
+allure-results/
 
 # Environment and config files
 .env
