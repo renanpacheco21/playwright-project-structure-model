@@ -134,21 +134,29 @@ npx playwright show-report
 
 ```ts
 import { test } from '@playwright/test';
-import { LoginCommands } from '../pages/commands/LoginCommands';
-import { BancoCommands } from '../pages/commands/BancoCommands';
+import { BancoCommands } from '../commands/BancoCommands.js';
+import { MenuCommands } from '../commands/MenuCommands.js';
+import { LoginCommands } from '../commands/LoginCommands.js';
 
-test('Cadastrar novo Banco com sucesso', async ({ page }) => {
-  const login = new LoginCommands(page);
-  const banco = new BancoCommands(page);
+test.describe('Banco', () => {
 
-  await test.step('Fazer login', async () => {
+  test.beforeEach(async ({ page }) => {
+    const login = new LoginCommands(page);
+    const menu = new MenuCommands(page);
+
     await login.fazLogin();
+
+    await menu.acessaMenu('Banco');
+    
   });
 
-  await test.step('Cadastrar novo banco', async () => {
-    await banco.criarNovoBanco();
+  test('Cadastrar novo Banco', async ({ page }) => {
+    const bancoPage = new BancoCommands(page);
+
+    await bancoPage.criarNovoBanco();
   });
 });
+
 ```
 
 ---
