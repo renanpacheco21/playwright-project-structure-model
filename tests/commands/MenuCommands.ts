@@ -1,5 +1,5 @@
 import { expect, Page } from '@playwright/test';
-import { MenuElements } from '../elements/MenuElements';
+import { MenuElements } from '../pages/elements/MenuElements.js';
 
 export class MenuCommands {
   private elements: MenuElements;

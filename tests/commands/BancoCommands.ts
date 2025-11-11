@@ -1,7 +1,7 @@
 import { expect, Page } from '@playwright/test';
-import { Messages } from '../../constants/messages';
-import novoBanco from '../../fixtures/banco.json';
-import { BancoElements } from '../elements/BancoElements';
+import { Messages } from '../constants/messages.js';
+import novoBanco from '../fixtures/banco.json' assert { type: 'json' };
+import { BancoElements } from '../pages/elements/BancoElements.js';
 
 export class BancoCommands {
   private elements: BancoElements;

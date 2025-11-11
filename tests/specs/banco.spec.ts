@@ -1,7 +1,7 @@
 import { test } from '@playwright/test';
-import { BancoCommands } from '../pages/commands/BancoCommands';
-import { MenuCommands } from '../pages/commands/MenuCommands';
-import { LoginCommands } from '../pages/commands/LoginCommands';
+import { BancoCommands } from '../commands/BancoCommands.js';
+import { MenuCommands } from '../commands/MenuCommands.js';
+import { LoginCommands } from '../commands/LoginCommands.js';
 
 test.describe('Banco', () => {
 

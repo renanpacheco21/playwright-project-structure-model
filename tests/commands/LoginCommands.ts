@@ -1,6 +1,6 @@
-import { expect, Locator, Page } from '@playwright/test';
-import { LoginElements } from '../elements/LoginElements';
-import config from '../../../config.env.json'
+import { expect, Page } from '@playwright/test';
+import { LoginElements } from '../pages/elements/LoginElements';
+import config from '../../config.env.json'
 
 export class LoginCommands {
   private elements: LoginElements;

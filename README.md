@@ -9,25 +9,25 @@ Automação de testes end-to-end desenvolvida em **Playwright + TypeScript**, es
 ```
 playwright-project-structure-model
 ├── tests
-│   ├── constants
-│   │   ├── buttons.ts          # Botões e seletores padrões do sistema
-│   │   ├── fields.ts           # Campos e IDs reutilizáveis
-│   │   └── messages.ts         # Mensagens e textos de validação
-│   ├── fixtures
-│   │   └── banco.json          # Massa de dados utilizada nos testes
-│   ├── pages
-│   │   ├── commands            # Ações executadas (métodos das páginas)
-│   │   │   ├── BancoCommands.ts
-│   │   │   ├── LoginCommands.ts
-│   │   │   └── MenuCommands.ts
-│   │   └── elements            # Mapeamento de seletores de cada página
-│   │       ├── BancoElements.ts
-│   │       ├── LoginElements.ts
-│   │       └── MenuElements.ts
-│   └── specs                   # Testes automatizados (cenários)
-│       └── banco.spec.ts
-├── config.env.json             # Configurações de ambiente (URL, usuário, senha, etc.)
-├── playwright.config.ts        # Configurações globais do Playwright
+│   ├── commands            # Ações executadas (métodos/helpers)
+│   │   ├── BancoCommands.ts
+│   │   ├── LoginCommands.ts
+│   │   └── MenuCommands.ts
+│   ├── constants           # Dados estáticos reutilizáveis
+│   │   ├── buttons.ts          # Botões e seletores padrões do sistema
+│   │   ├── fields.ts           # Campos e IDs reutilizáveis
+│   │   └── messages.ts         # Mensagens e textos de validação
+│   ├── fixtures
+│   │   └── banco.json          # Massa de dados utilizada nos testes
+│   ├── pages               # Implementação do Page Object Model (POM)
+│   │   └── elements            # Mapeamento de seletores de cada página
+│   │       ├── BancoElements.ts
+│   │       ├── LoginElements.ts
+│   │       └── MenuElements.ts
+│   └── specs                   # Testes automatizados (cenários)
+│       └── banco.spec.ts
+├── config.env.json             # Configurações de ambiente (URL, usuário, senha, etc.)
+├── playwright.config.ts        # Configurações globais do Playwright
 └── package.json
 ```
 
@@ -73,10 +73,10 @@ Crie um arquivo `config.env.json` com suas credenciais e ambiente:
 
 | Pasta / Arquivo | Função |
 |------------------|--------|
+| **commands** | Define as ações realizadas em cada tela (click, fill, validação etc). |
 | **constants** | Centraliza seletores e textos reutilizáveis. |
 | **fixtures** | Contém dados fixos usados nos testes (ex: nomes de bancos, usuários). |
 | **pages/elements** | Armazena apenas os seletores de cada página. |
-| **pages/commands** | Define as ações realizadas em cada tela (click, fill, validação etc). |
 | **specs** | Contém os testes automatizados escritos em Playwright Test. |
 
 ---
