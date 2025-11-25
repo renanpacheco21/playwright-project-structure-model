@@ -1,10 +1,25 @@
-# 🧪 Playwright Test Modelo de Estruturação
+# 🧪 Playwright Project Structure Model
 
-Automação de testes end-to-end desenvolvida em **Playwright + TypeScript**, estruturada seguindo o padrão **Page Object Model (POM)** com separação entre **comandos**, **elementos** e **constantes** para facilitar manutenção, reuso e legibilidade.
+Estrutura de automação **Playwright + TypeScript** que demonstra, de forma enxuta, como organizar testes end-to-end com **Page Object Model (POM)**, centralização de seletores/dados e comandos reutilizáveis.
+
+- ✅ Tipagem completa com `@playwright/test`
+- ✅ Separação entre **comandos**, **elementos**, **constantes** e **fixtures**
+- ✅ Configuração via `config.env.json` para manter credenciais fora do código
+- ✅ Relatório HTML nativo (`playwright-report/`) pronto para consulta
 
 ---
 
-## 📂 Estrutura do Projeto
+## 🧱 Stack Principal
+
+| Ferramenta        | Uso no projeto |
+| ----------------- | -------------- |
+| `@playwright/test` 1.56 | Runner, assertions e fixtures padrão |
+| TypeScript (ESM)  | Tipagem estática e imports com extensão `.js` |
+| Node.js ≥ 18      | Requisitos mínimos do Playwright |
+
+---
+
+## 📁 Estrutura de Pastas
 
 ```
 playwright-project-structure-model
@@ -33,35 +48,27 @@ playwright-project-structure-model
 
 ---
 
-## ⚙️ Pré-requisitos
+## 🔧 Pré-requisitos e Setup
 
-Antes de rodar os testes, certifique-se de ter:
-
-- [Node.js](https://nodejs.org/en/) v18 ou superior  
-- [npm](https://www.npmjs.com/) ou [yarn](https://yarnpkg.com/) instalado  
-- Playwright instalado globalmente (opcional)
-
----
-
-## 🚀 Instalação
-
-```bash
-# Instalar dependências
-npm install
-
-# Baixar os browsers necessários
-npx playwright install
-```
+1. Instale o [Node.js 18+](https://nodejs.org/en) (npm é instalado junto).
+2. Instale as dependências do projeto:
+   ```bash
+   npm install
+   ```
+3. Baixe os navegadores suportados pelo Playwright:
+   ```bash
+   npx playwright install
+   ```
 
 ---
 
-## 🔑 Configuração do Ambiente
+## 🔐 Configuração de Ambiente
 
 Crie um arquivo `config.env.json` com suas credenciais e ambiente:
 
 ```json
 {
-  "base_url": "https://meusistema.com",
+  "base_url": "https://seu-sistema.com",
   "usuario": "admin",
   "senha": "123456"
 }
@@ -98,35 +105,29 @@ npx playwright test tests/specs/banco.spec.ts
 npx playwright test --headed
 ```
 
-### Abrir o relatório após a execução:
+| Ação                             | Comando |
+| -------------------------------- | ------- |
+| Rodar todos os testes            | `npx playwright test` |
+| Rodar apenas o cenário de banco  | `npx playwright test tests/specs/banco.spec.ts` |
+| Abrir navegador (headed)         | `npx playwright test --headed` |
+| Depurar com Inspector            | `npx playwright test --debug` |
+| Abrir o último relatório HTML    | `npx playwright show-report` |
+
+> O `playwright.config.ts` define `reporter: 'html'`, execução em 1 worker e coleta de trace apenas quando houver retry.
+
+---
+
+## 📊 Relatórios
+
+- `playwright-report/`: relatório padrão HTML (sobrescrito a cada run).
+- `allure-results/` e `allure-report/`: diretórios prontos para integração com o Allure caso deseje adicionar o reporter no futuro (não habilitado por padrão).
+
+Para visualizar o relatório nativo:
 ```bash
 npx playwright show-report
 ```
 
----
-
-## 🧾 Relatórios
-
-Os relatórios HTML são gerados automaticamente em:
-```
-playwright-report/
-```
-
-Para visualizar:
-```bash
-npx playwright show-report
-```
-
----
-
-## 🧰 Boas Práticas do Projeto
-
-✅ Uso do padrão **Page Object Model (POM)**  
-✅ Separação clara entre **elementos, comandos e testes**  
-✅ Mensagens e seletores centralizados em `constants`  
-✅ Massas de dados externas em `fixtures`  
-✅ Validações consistentes com `expect()`  
-✅ `test.step()` usado para organização e relatórios detalhados  
+Se quiser usar Allure, instale o CLI (`npm i -D allure-commandline`) e configure o reporter no `playwright.config.ts`.
 
 ---
 
@@ -139,15 +140,12 @@ import { MenuCommands } from '../commands/MenuCommands.js';
 import { LoginCommands } from '../commands/LoginCommands.js';
 
 test.describe('Banco', () => {
-
   test.beforeEach(async ({ page }) => {
     const login = new LoginCommands(page);
     const menu = new MenuCommands(page);
 
     await login.fazLogin();
-
     await menu.acessaMenu('Banco');
-    
   });
 
   test('Cadastrar novo Banco', async ({ page }) => {
@@ -156,8 +154,24 @@ test.describe('Banco', () => {
     await bancoPage.criarNovoBanco();
   });
 });
-
 ```
 
 ---
+
+## 💡 Boas práticas adotadas
+
+- Page Objects contêm **somente seletores**, mantendo comandos focados em regras de negócio.
+- Dados sensíveis e massa ficam fora do código (`config.env.json` e fixtures).
+- Assertions centralizadas usando `expect` garantem feedbacks claros (`Messages.SUCESSO_OPERACAO`).
+- Arquitetura pronta para crescer: basta adicionar novos `Elements`, `Commands` e `specs`.
+
+---
+
+## 🧹 Manutenção e Dicas
+
+- Use `npx playwright test --reporter=list` quando quiser logs enxutos no terminal.
+- Limpe `playwright-report/`, `allure-results/` e `allure-report/` antes de commitar para evitar ruído.
+- Caso um seletor mude, atualize a classe dentro de `tests/pages/elements` e os testes voltarão a funcionar sem tocar nos specs.
+
+Bom proveito! 🎯
 
